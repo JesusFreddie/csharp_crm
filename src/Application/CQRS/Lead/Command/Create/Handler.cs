@@ -6,15 +6,16 @@ using Shared;
 
 namespace Application.CQRS.Lead.Command.Create;
 
-public sealed class Handler(ILeadRepository leadRepository, ICreateLeadPolicy canLeadPolicy, ICurrentUser currentUser)
+// public sealed class Handler(ILeadRepository leadRepository, ICreateLeadPolicy canLeadPolicy, ICurrentUser currentUser)
+public sealed class Handler(ILeadRepository leadRepository)
 {
     public async Task<Result<Response, BaseError>> Handle(Command cmd, CancellationToken cancellationToken)
     {
-        var can = await canLeadPolicy.CanExecute(currentUser, cmd, cancellationToken);
-        if (can.IsFailure)
-        {
-            return can.Error;
-        }
+        // var can = await canLeadPolicy.CanExecute(currentUser, cmd, cancellationToken);
+        // if (can.IsFailure)
+        // {
+        //     return can.Error;
+        // }
         
         var id = Guid.NewGuid();
         var date = DateTime.UtcNow;

@@ -20,8 +20,8 @@ builder.Services.AddLeadServices();
 builder.Services.AddScoped<IUnitToWork>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    // if (string.IsNullOrEmpty(connectionString))
-    //     throw new InvalidOperationException("No connection string");
+    if (string.IsNullOrEmpty(connectionString))
+        throw new InvalidOperationException("No connection string");
     
     return new UnitToWork(connectionString ?? "");
 });
