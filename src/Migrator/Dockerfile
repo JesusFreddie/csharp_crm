@@ -7,10 +7,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Migrator/Migrator.csproj", "Migrator/"]
-RUN dotnet restore "Migrator/Migrator.csproj"
+COPY ["src/Migrator/Migrator.csproj", "src/Migrator/"]
+RUN dotnet restore "src/Migrator/Migrator.csproj"
 COPY . .
-WORKDIR "/src/Migrator"
+WORKDIR "/src/src/Migrator"
 RUN dotnet build "./Migrator.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
