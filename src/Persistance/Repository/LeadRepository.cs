@@ -12,8 +12,8 @@ public sealed class LeadRepository(IUnitToWork uow) : ILeadRepository
     {
         await uow.Connection.ExecuteAsync(
             """
-            INSERT INTO leads (id, name)
-            VALUES (@id, @name)
+            INSERT INTO leads (id, name, created_at, updated_at)
+            VALUES (@id, @name, @created_at, @updated_at);
             """,
             lead,
             transaction: uow.Transaction);
@@ -26,18 +26,19 @@ public sealed class LeadRepository(IUnitToWork uow) : ILeadRepository
 
     public async Task<Lead?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
-        var row = await uow.Connection.QueryFirstOrDefaultAsync<LeadRow>(
+        var row = await uow.Connection.QueryFirstOrDefaultAsync<LeadRow?>(
             """
             SELECT * FROM leads
             WHERE id = @id
             """, new { id }, uow.Transaction);
-
+        if (!row.HasValue) return null;
+        var lead = row.Value;
         return Lead.RestoreModel(
-            id: row.Id,
-            name: row.Name,
-            description: row.Description,
-            isArchived: row.IsArchived,
-            createAt: row.CreatedAt,
-            updateAt: row.UpdatedAt);
+            id: lead.Id,
+            name: lead.Name,
+            description: lead.Description,
+            isArchived: lead.IsArchived,
+            createAt: lead.CreatedAt,
+            updateAt: lead.UpdatedAt);
     }
 }

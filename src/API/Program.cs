@@ -20,6 +20,7 @@ builder.Services.AddLeadServices();
 builder.Services.AddScoped<IUnitToWork>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    Console.WriteLine($"Using connection string: {connectionString}");
     if (string.IsNullOrEmpty(connectionString))
         throw new InvalidOperationException("No connection string");
     
@@ -49,5 +50,4 @@ app.UseFastEndpoints(c =>
     };
 });
 
-app.UseHttpsRedirection();
 app.Run();

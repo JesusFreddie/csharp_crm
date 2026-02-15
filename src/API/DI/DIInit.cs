@@ -9,6 +9,7 @@ public static class DiInit
         services.AddScoped<Application.CQRS.Lead.Command.Archive.Handler>();
         services.AddScoped<Application.CQRS.Lead.Command.Create.Handler>();
         services.AddScoped<Application.CQRS.Lead.Command.Restore.Handler>();
+        services.AddScoped<Application.CQRS.Lead.Query.GetById.Handler>();
         
         return services;
     }

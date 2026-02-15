@@ -1,6 +1,7 @@
 ﻿services:
   api:
     image: api
+    user: "${UID}:${GID}"
     build:
       context: .
       dockerfile: src/API/Dockerfile

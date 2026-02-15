@@ -18,8 +18,7 @@ public abstract class ResultEndpoint<TRequest, TResponse>
 
         if (result.IsSuccess)
         {
-            await Send.StatusCodeAsync(statusCode, ct);
-            await Send.OkAsync(result.Value, ct);
+            await Send.ResponseAsync(result.Value, statusCode, ct);
             return;
         }
 
@@ -30,14 +29,12 @@ public abstract class ResultEndpoint<TRequest, TResponse>
     
     protected async Task ExecuteAsync(
         Func<Task<IUnitResult<BaseError>>> action,
-        int statusCode = StatusCodes.Status200OK,
         CancellationToken ct = default)
     {
         var result = await action();
 
         if (result.IsSuccess)
         {
-            await Send.StatusCodeAsync(statusCode, ct);
             await Send.NoContentAsync(ct);
             return;
         }
