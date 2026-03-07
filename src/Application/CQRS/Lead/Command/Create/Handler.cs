@@ -1,15 +1,12 @@
-﻿using Application.Auth;
-using Application.Policy.Lead;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using Domain.Repository;
 using Shared;
 
 namespace Application.CQRS.Lead.Command.Create;
 
-// public sealed class Handler(ILeadRepository leadRepository, ICreateLeadPolicy canLeadPolicy, ICurrentUser currentUser)
 public sealed class Handler(ILeadRepository leadRepository)
 {
-    public async Task<Result<Response, BaseError>> Handle(Command cmd, CancellationToken cancellationToken)
+    public async Task<Result<Entity.Lead, BaseError>> Handle(Command cmd, CancellationToken cancellationToken)
     {
         // var can = await canLeadPolicy.CanExecute(currentUser, cmd, cancellationToken);
         // if (can.IsFailure)
@@ -27,6 +24,6 @@ public sealed class Handler(ILeadRepository leadRepository)
         var lead = leadResult.Value;
         await leadRepository.Add(lead, cancellationToken);
         
-        return new Response(lead.Id, lead.Name, lead.Description, lead.CreatedAt, lead.UpdatedAt);
+        return new Entity.Lead(lead.Id, lead.Name, lead.Description, lead.CreatedAt, lead.UpdatedAt);
     }
 }

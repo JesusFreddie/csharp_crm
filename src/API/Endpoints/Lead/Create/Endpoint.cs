@@ -2,7 +2,7 @@
 
 namespace API.Endpoints.Lead.Create;
 
-public class Endpoint(Handler handle) : CreateEndpoint<Command, Response>
+public class Endpoint(Handler handle) : CreateEndpoint<Command, Application.Entity.Lead>
 {
     public override void Configure()
     {
@@ -10,7 +10,7 @@ public class Endpoint(Handler handle) : CreateEndpoint<Command, Response>
         AllowAnonymous();
         Description(c =>
         {
-            c.Produces<Response>(StatusCodes.Status201Created);
+            c.Produces<Application.Entity.Lead>(StatusCodes.Status201Created);
             c.Produces<ErrorResponse>(StatusCodes.Status400BadRequest);
             c.Produces<ErrorResponse>(StatusCodes.Status404NotFound);
             c.Produces<ErrorResponse>(StatusCodes.Status500InternalServerError);

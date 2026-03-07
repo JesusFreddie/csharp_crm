@@ -2,7 +2,7 @@ using Application.CQRS.Lead.Query.GetById;
 
 namespace API.Endpoints.Lead.GetById;
 
-public class Endpoint(Handler handler) : ResultEndpoint<Query, Application.Dto.Lead>
+public class Endpoint(Handler handler) : ResultEndpoint<Query, Application.Entity.Lead>
 {
     public override void Configure()
     {
