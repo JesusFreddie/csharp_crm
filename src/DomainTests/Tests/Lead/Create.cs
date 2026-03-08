@@ -36,7 +36,7 @@ public class Create
         var result = Domain.Entity.Lead.Create(id, name, description, createdAt, updatedAt);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().BeOfType<LeadNameTooLong>();
+        result.Error.Should().BeOfType<NameTooLong>();
     }
 
     [Fact]
@@ -49,6 +49,6 @@ public class Create
         var result = Domain.Entity.Lead.Create(id, name, description, DateTime.UtcNow, DateTime.UtcNow);
 
         result.IsSuccess.Should().BeFalse();
-        result.Error.Should().BeOfType<LeadNameRequired>();
+        result.Error.Should().BeOfType<NameRequired>();
     }
 }
