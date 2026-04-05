@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Domain.Abstractions;
 using Domain.Error;
-using Domain.Error.Account;
+using Domain.Error.Counterparty;
 
 namespace Domain.Aggregates.Account;
 
@@ -20,7 +20,7 @@ public class Account : BaseEntity, IArchivable
         UpdatedAt = updatedAt;
     }
 
-    public static Result<Account, AccountError> Create(
+    public static Result<Account, CounterpartyError> Create(
         Guid id,
         string name,
         DateTime createdAt,
@@ -29,16 +29,16 @@ public class Account : BaseEntity, IArchivable
         name = name.Trim();
 
         if (string.IsNullOrWhiteSpace(name))
-            return new AccountNameRequired();
+            return new CounterpartyNameRequired();
         if (name.Length > MaxNameLength)
-            return new AccountNameTooLong();
+            return new CounterpartyNameTooLong();
 
         return new Account(id, name, createdAt, updatedAt);
     }
 
     public UnitResult<DomainError> Archive()
     {
-        if (IsArchived) return new Error.Account.AlreadyArchived();
+        if (IsArchived) return new Error.Counterparty.AlreadyArchived();
 
         IsArchived = true;
         return UnitResult.Success<DomainError>();
@@ -46,7 +46,7 @@ public class Account : BaseEntity, IArchivable
 
     public UnitResult<DomainError> Restore()
     {
-        if (!IsArchived) return new Error.Account.NotArchived();
+        if (!IsArchived) return new Error.Counterparty.NotArchived();
 
         IsArchived = false;
         return UnitResult.Success<DomainError>();
@@ -57,9 +57,9 @@ public class Account : BaseEntity, IArchivable
         name = name.Trim();
 
         if (string.IsNullOrWhiteSpace(name))
-            return new AccountNameRequired();
+            return new CounterpartyNameRequired();
         if (name.Length > MaxNameLength)
-            return new AccountNameTooLong();
+            return new CounterpartyNameTooLong();
 
         Name = name;
         return UnitResult.Success<DomainError>();

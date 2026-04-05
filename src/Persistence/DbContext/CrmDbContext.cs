@@ -1,6 +1,7 @@
 ﻿using Application.Ports.DbContext;
 using Application.Ports.Time;
 using Domain.Abstractions;
+using Domain.Aggregates.Account;
 using Domain.Aggregates.Lead;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ public class CrmDbContext : Microsoft.EntityFrameworkCore.DbContext, ICrmContext
     }
 
     public DbSet<Lead> Leads { get; set; }
+    public DbSet<Account> Accounts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
