@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Domain.Error.Lead.DealAmount;
 
-namespace Domain.Entity;
+namespace Domain.ValueObjects;
 
 public record DealAmount
 {

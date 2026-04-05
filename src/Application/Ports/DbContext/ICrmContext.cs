@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+using Domain.Aggregates.Lead;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Ports.DbContext;

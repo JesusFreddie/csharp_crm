@@ -1,8 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using Domain.Abstractions;
 using Domain.Error;
 using Domain.Error.Account;
 
-namespace Domain.Entity;
+namespace Domain.Aggregates.Account;
 
 public class Account : BaseEntity, IArchivable
 {

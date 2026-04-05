@@ -1,6 +1,7 @@
-﻿using Domain.Entity;
-using Domain.Error.Lead;
+﻿using Domain.Error.Lead;
+using Domain.ValueObjects;
 using FluentAssertions;
+using LeadAggregate = Domain.Aggregates.Lead.Lead;
 
 namespace DomainTests.Tests.Lead;
 
@@ -13,7 +14,7 @@ public class Archive
         var name = "test";
         const string description = "TestLeadDescription";
         var now = DateTime.UtcNow;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
+        var resultLead = LeadAggregate.Create(id, name, description, DealAmount.Empty(), now, now);
 
         var resultArchive = resultLead.Value.Archive();
 
@@ -27,7 +28,7 @@ public class Archive
         var name = "test";
         const string description = "TestLeadDescription";
         var now = DateTime.UtcNow;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
+        var resultLead = LeadAggregate.Create(id, name, description, DealAmount.Empty(), now, now);
         resultLead.Value.Archive();
 
         var resultArchive = resultLead.Value.Archive();
@@ -43,7 +44,7 @@ public class Archive
         var name = "test";
         const string description = "TestLeadDescription";
         var now = DateTime.UtcNow;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
+        var resultLead = LeadAggregate.Create(id, name, description, DealAmount.Empty(), now, now);
 
         var resultArchive = resultLead.Value.Restore();
 

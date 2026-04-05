@@ -1,6 +1,7 @@
-﻿using Domain.Entity;
-using Domain.Error.Lead;
+﻿using Domain.Error.Lead;
+using Domain.ValueObjects;
 using FluentAssertions;
+using LeadAggregate = Domain.Aggregates.Lead.Lead;
 
 namespace DomainTests.Tests.Lead;
 
@@ -10,7 +11,7 @@ public class SetName
     public void Update_Name_Is_Success()
     {
         var now = DateTime.UtcNow;
-        var leadResult = Domain.Entity.Lead.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
+        var leadResult = LeadAggregate.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
         var newName = "NewName";
 
         var result = leadResult.Value.SetName(newName);
@@ -23,7 +24,7 @@ public class SetName
     public void Update_Name_Is_Failure_Name_Too_Long()
     {
         var now = DateTime.UtcNow;
-        var leadResult = Domain.Entity.Lead.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
+        var leadResult = LeadAggregate.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
         var newName = new string('a', 1000);
 
         var result = leadResult.Value.SetName(newName);
@@ -36,7 +37,7 @@ public class SetName
     public void Update_Name_Is_Failure_Archived()
     {
         var now = DateTime.UtcNow;
-        var leadResult = Domain.Entity.Lead.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
+        var leadResult = LeadAggregate.Create(Guid.NewGuid(), "OldName", "", DealAmount.Empty(), now, now);
         leadResult.Value.Archive();
 
         var newName = "NewName";

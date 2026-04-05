@@ -4,7 +4,7 @@ using Application.Ports.Messaging;
 using Application.Ports.DbContext;
 using Application.Ports.Time;
 using Contracts.Messages.Lead;
-using Domain.Entity;
+using Domain.Aggregates.Lead;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -49,7 +49,7 @@ public class CreateHandlerTests
         result.Value.Should().NotBeNull();
 
         await _context.Leads.Received(1).AddAsync(
-            Arg.Is<Domain.Entity.Lead>(l =>
+            Arg.Is<Domain.Aggregates.Lead.Lead>(l =>
                 l.Id == leadId &&
                 l.Name == "Test Lead" &&
                 l.Description == "Test Description"),
@@ -85,7 +85,7 @@ public class CreateHandlerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Code.Should().Be("lead.name.required");
 
-        await _context.Leads.DidNotReceive().AddAsync(Arg.Any<Domain.Entity.Lead>(), Arg.Any<CancellationToken>());
+        await _context.Leads.DidNotReceive().AddAsync(Arg.Any<Domain.Aggregates.Lead.Lead>(), Arg.Any<CancellationToken>());
         await _context.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
         await _messagePublisher.DidNotReceive().PublishAsync(Arg.Any<LeadCreatedEvent>(), Arg.Any<CancellationToken>());
     }
@@ -108,7 +108,7 @@ public class CreateHandlerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Code.Should().Be("lead.name.too_long");
 
-        await _context.Leads.DidNotReceive().AddAsync(Arg.Any<Domain.Entity.Lead>(), Arg.Any<CancellationToken>());
+        await _context.Leads.DidNotReceive().AddAsync(Arg.Any<Domain.Aggregates.Lead.Lead>(), Arg.Any<CancellationToken>());
         await _context.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
         await _messagePublisher.DidNotReceive().PublishAsync(Arg.Any<LeadCreatedEvent>(), Arg.Any<CancellationToken>());
     }
@@ -125,11 +125,11 @@ public class CreateHandlerTests
         _idGenerator.New().Returns(leadId);
         _clock.UtcNow().Returns(now);
 
-        _context.Leads.AddAsync(Arg.Any<Domain.Entity.Lead>(), Arg.Any<CancellationToken>())
+        _context.Leads.AddAsync(Arg.Any<Domain.Aggregates.Lead.Lead>(), Arg.Any<CancellationToken>())
             .Returns(x =>
             {
                 callOrder.Add("AddAsync");
-                return default(ValueTask<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Domain.Entity.Lead>>);
+                return default(ValueTask<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Domain.Aggregates.Lead.Lead>>);
             });
 
         _context.SaveChangesAsync(Arg.Any<CancellationToken>())

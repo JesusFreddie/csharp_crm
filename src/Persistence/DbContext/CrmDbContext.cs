@@ -1,6 +1,7 @@
 ﻿using Application.Ports.DbContext;
 using Application.Ports.Time;
-using Domain.Entity;
+using Domain.Abstractions;
+using Domain.Aggregates.Lead;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.DbContext;

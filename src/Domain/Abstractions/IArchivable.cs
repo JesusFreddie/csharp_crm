@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Domain.Error;
 
-namespace Domain.Entity;
+namespace Domain.Abstractions;
 
 public interface IArchivable
 {

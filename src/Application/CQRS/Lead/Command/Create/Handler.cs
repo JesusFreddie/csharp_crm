@@ -6,7 +6,8 @@ using Application.Ports.Time;
 using Contracts.Messages.Lead;
 using CSharpFunctionalExtensions;
 using Core.Error;
-using Domain.Entity;
+using Domain.Aggregates.Lead;
+using Domain.ValueObjects;
 
 namespace Application.CQRS.Lead.Command.Create;
 
@@ -21,7 +22,7 @@ public sealed class Handler(
         var date = clock.UtcNow();
         var amount = DealAmount.Empty();
 
-        var result = Domain.Entity.Lead.Create(
+        var result = Domain.Aggregates.Lead.Lead.Create(
             id: idGenerator.New(),
             name: cmd.Name,
             description: cmd.Description,

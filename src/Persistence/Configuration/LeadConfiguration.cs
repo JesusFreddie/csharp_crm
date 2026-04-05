@@ -1,4 +1,5 @@
-using Domain.Entity;
+using Domain.Abstractions;
+using Domain.Aggregates.Lead;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

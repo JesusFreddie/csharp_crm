@@ -1,6 +1,7 @@
-﻿using Domain.Entity;
-using Domain.Error.Lead;
+﻿using Domain.Error.Lead;
+using Domain.ValueObjects;
 using FluentAssertions;
+using LeadAggregate = Domain.Aggregates.Lead.Lead;
 
 namespace DomainTests.Tests.Lead;
 
@@ -15,7 +16,7 @@ public class Create
         var createdAt = DateTime.UtcNow;
         var updatedAt = createdAt;
 
-        var result = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), createdAt, updatedAt);
+        var result = LeadAggregate.Create(id, name, description, DealAmount.Empty(), createdAt, updatedAt);
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Name.Should().Be(name);
@@ -34,7 +35,7 @@ public class Create
         var createdAt = DateTime.UtcNow;
         var updatedAt = createdAt;
 
-        var result = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), createdAt, updatedAt);
+        var result = LeadAggregate.Create(id, name, description, DealAmount.Empty(), createdAt, updatedAt);
 
         result.IsFailure.Should().BeTrue();
         result.Error.Should().BeOfType<NameTooLong>();
@@ -47,7 +48,7 @@ public class Create
         var name = string.Empty;
         const string description = "TestLeadDescription";
 
-        var result = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), DateTime.UtcNow, DateTime.UtcNow);
+        var result = LeadAggregate.Create(id, name, description, DealAmount.Empty(), DateTime.UtcNow, DateTime.UtcNow);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().BeOfType<NameRequired>();

@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using Domain.Abstractions;
 using Domain.Error;
 using Domain.Error.Lead;
+using Domain.ValueObjects;
 
-namespace Domain.Entity;
+namespace Domain.Aggregates.Lead;
 
 public class Lead : BaseEntity, IArchivable
 {
