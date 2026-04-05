@@ -1,4 +1,6 @@
-﻿
+﻿using Application.Ports.Messaging;
+using Common.Messaging;
+
 namespace API.DI;
 
 public static class DiInit
@@ -10,7 +12,9 @@ public static class DiInit
         services.AddScoped<Application.CQRS.Lead.Command.Create.Handler>();
         services.AddScoped<Application.CQRS.Lead.Command.Restore.Handler>();
         services.AddScoped<Application.CQRS.Lead.Query.GetById.Handler>();
-        
+
+        services.AddScoped<IMessagePublisher, NoOpMessagePublisher>();
+
         return services;
     }
 }

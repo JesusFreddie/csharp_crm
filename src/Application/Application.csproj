@@ -8,10 +8,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Contracts.Messages\Contracts.Messages.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Ports\Policy\Lead\" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
     </ItemGroup>
 
 </Project>

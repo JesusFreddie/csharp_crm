@@ -15,7 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\Core\Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <InternalsVisibleTo Include="Persistence" />
     </ItemGroup>
 
 </Project>

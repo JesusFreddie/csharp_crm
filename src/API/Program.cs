@@ -1,31 +1,17 @@
 using API.DI;
 using API.Settings;
-using Application;
-using Domain.Repository;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Persistance;
-using Persistance.Repository;
 using ErrorResponse = API.Endpoints.ErrorResponse;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.InitDbContext(builder.Configuration);
+
 builder.Services.InitEndpoints();
 builder.Services.InitSwagger();
 
-builder.Services.AddScoped<ILeadRepository, LeadRepository>();
-
 builder.Services.AddLeadServices();
-
-builder.Services.AddScoped<IUnitToWork>(sp =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    Console.WriteLine($"Using connection string: {connectionString}");
-    if (string.IsNullOrEmpty(connectionString))
-        throw new InvalidOperationException("No connection string");
-    
-    return new UnitToWork(connectionString ?? "");
-});
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

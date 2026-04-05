@@ -1,4 +1,5 @@
-﻿using Domain.Error.Lead;
+﻿using Domain.Entity;
+using Domain.Error.Lead;
 using FluentAssertions;
 
 namespace DomainTests.Tests.Lead;
@@ -11,26 +12,24 @@ public class Archive
         var id = Guid.NewGuid();
         var name = "test";
         const string description = "TestLeadDescription";
-        var createdAt = DateTime.UtcNow;
-        var updatedAt = createdAt;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, createdAt, updatedAt);
-        
+        var now = DateTime.UtcNow;
+        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
+
         var resultArchive = resultLead.Value.Archive();
 
         resultArchive.IsSuccess.Should().BeTrue();
     }
-    
+
     [Fact]
     public void Failed_Archive_Lead_Because_Lead_Be_Archived()
     {
         var id = Guid.NewGuid();
         var name = "test";
         const string description = "TestLeadDescription";
-        var createdAt = DateTime.UtcNow;
-        var updatedAt = createdAt;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, createdAt, updatedAt);
+        var now = DateTime.UtcNow;
+        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
         resultLead.Value.Archive();
-        
+
         var resultArchive = resultLead.Value.Archive();
 
         resultArchive.IsFailure.Should().BeTrue();
@@ -43,10 +42,9 @@ public class Archive
         var id = Guid.NewGuid();
         var name = "test";
         const string description = "TestLeadDescription";
-        var createdAt = DateTime.UtcNow;
-        var updatedAt = createdAt;
-        var resultLead = Domain.Entity.Lead.Create(id, name, description, createdAt, updatedAt);
-        
+        var now = DateTime.UtcNow;
+        var resultLead = Domain.Entity.Lead.Create(id, name, description, DealAmount.Empty(), now, now);
+
         var resultArchive = resultLead.Value.Restore();
 
         resultArchive.IsFailure.Should().BeTrue();

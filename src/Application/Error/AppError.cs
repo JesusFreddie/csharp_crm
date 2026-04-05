@@ -1,4 +1,4 @@
-﻿using Shared;
+﻿using Core.Error;
 
 namespace Application.Error;
 

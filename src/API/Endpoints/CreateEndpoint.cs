@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Shared;
+using Core.Error;
 
 namespace API.Endpoints;
 

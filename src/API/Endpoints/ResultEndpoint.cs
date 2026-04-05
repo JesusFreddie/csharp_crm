@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using Domain.Error;
 using FastEndpoints;
-using Shared;
+using Core.Error;
 
 namespace API.Endpoints;
 
