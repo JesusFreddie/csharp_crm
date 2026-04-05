@@ -1,39 +1,28 @@
 using API.DI;
 using API.Settings;
-using FastEndpoints;
 using FastEndpoints.Swagger;
-using ErrorResponse = API.Endpoints.ErrorResponse;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.InitDbContext(builder.Configuration);
+// Infrastructure
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure();
 
-builder.Services.InitEndpoints();
-builder.Services.InitSwagger();
+// Application
+builder.Services.AddApplicationServices();
 
-builder.Services.AddLeadServices();
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// API
+builder.Services.AddEndpoints();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerGen();
 }
 
-app.UseFastEndpoints(c =>
-{
-    c.Errors.ResponseBuilder = (failure, ctx, status) =>
-    {
-        var f = failure.First();
-        return new ErrorResponse(
-            f.ErrorCode,
-            f.ErrorMessage);
-    };
-});
+app.UseEndpoints();
 
 app.Run();

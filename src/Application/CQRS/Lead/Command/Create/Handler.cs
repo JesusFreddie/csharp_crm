@@ -1,4 +1,5 @@
-﻿using Application.Ports.Id;
+﻿using Application.Ports.Handler;
+using Application.Ports.Id;
 using Application.Ports.Messaging;
 using Application.Ports.DbContext;
 using Application.Ports.Time;
@@ -13,7 +14,7 @@ public sealed class Handler(
     ICrmContext context,
     IClock clock,
     IIdGenerator idGenerator,
-    IMessagePublisher messagePublisher)
+    IMessagePublisher messagePublisher) : ICommandHandler
 {
     public async Task<Result<Entity.Lead, BaseError>> Handle(Command cmd, CancellationToken cancellationToken)
     {
