@@ -1,14 +1,25 @@
 ﻿using Application.CQRS.Lead.Command.Archive;
-using FastEndpoints;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace API.Endpoints.Lead.Archive;
 
-[HttpPost("/api/lead/archive")]
-public class Endpoint() : Endpoint<string, Results<Ok, NotFound>>
+public class Endpoint(Handler handler) : ResultEndpoint<Command, object>
 {
-    public override Task<Results<Ok, NotFound>> ExecuteAsync(string req, CancellationToken ct)
+    public override void Configure()
     {
-        return base.ExecuteAsync(req, ct);
+        Post("api/lead/{id:guid}/archive");
+        AllowAnonymous();
+
+        Description(c =>
+        {
+            c.Produces(StatusCodes.Status204NoContent);
+            c.Produces<ErrorResponse>(StatusCodes.Status404NotFound);
+            c.Produces<ErrorResponse>(StatusCodes.Status400BadRequest);
+            c.Produces<ErrorResponse>(StatusCodes.Status500InternalServerError);
+        });
+    }
+
+    public override async Task HandleAsync(Command req, CancellationToken ct)
+    {
+        await ExecuteAsync(async () => await handler.Handle(req, ct), ct);
     }
 }
